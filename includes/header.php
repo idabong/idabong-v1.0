@@ -79,13 +79,13 @@ if(isset($_SESSION['uid'])) {
 
 			    						<li class='dropdown'>
 										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-										    <img src='css/images/default-avatar-18x18.jpg' class=''> {$_SESSION['first_name']}<b class='caret'></b></a>
+										    <img src='css/images/default-avatar-20x20.png' class=''> {$_SESSION['first_name']}<b class='caret'></b></a>
 										    <ul class='dropdown-menu'>
-										        <li><a href='".BASE_URL."my-team.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
-										        <li class=divider></li>
-										        <li><a href='".BASE_URL."user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
-										        <li class=divider></li>
-										        <li><a href='".BASE_URL."logout.php'><i class='fa fa-sign-out'></i> Đăng xuất</a></li>
+										        <li><a href='my-team.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
+										        
+										        <li><a href='user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
+										        
+										        <li><a href='logout.php'><i class='fa fa-sign-out'></i> Đăng xuất</a></li>
 										    </ul>
 										</li>
 			    					";
@@ -110,6 +110,10 @@ if(isset($_SESSION['uid'])) {
 		        						<li><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>";
 			    					break;
 			    			}
+			    		} else {
+			    			echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
+
+		        				<li><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>";
 			    		}
 			    	?>
 			    	</ul><!-- END navbar Right -->

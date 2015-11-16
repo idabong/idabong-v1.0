@@ -17,7 +17,7 @@
 							<div class="media">
 								<div class="media-left">
 									<a href="#">
-				      					<img src="css/images/default-avatar-100x100.jpg" alt="user-avatar">
+				      					<img src="css/images/default-avatar-64x64.png" alt="user-avatar">
 				    				</a>
 								</div>
 								<div class="media-body">
