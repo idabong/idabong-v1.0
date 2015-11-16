@@ -186,8 +186,51 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		      	<!-- navbar Left -->
 		    	<ul class="nav navbar-nav navbar-right">
-			        <li><a href="transactions.php"><span class="glyphicon glyphicon-fire"></span> Cáp Kèo</a></li>
-	        		<li><a href="login.php"><span class="glyphicon glyphicon-user"></span> Đăng Nhập</a></li>
+			       <?php 
+			    		if (isset($_SESSION['user_level'])) {
+			    			switch ($_SESSION['user_level']) {
+			    				case 0: //Register user access
+			    					echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
+
+			    						<li class='dropdown'>
+										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+										    <img src='css/images/default-avatar-20x20.png' class=''> {$_SESSION['first_name']}<b class='caret'></b></a>
+										    <ul class='dropdown-menu'>
+										        <li><a href='my-team.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
+										        
+										        <li><a href='user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
+										        
+										        <li><a href='logout.php'><i class='fa fa-sign-out'></i> Đăng xuất</a></li>
+										    </ul>
+										</li>
+			    					";
+			    					break;
+
+			    				case 2:
+			    					echo "
+			    						<li class='dropdown'>
+										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+										    <img src='' class='profile-image img-circle'> Username <b class='caret'></b></a>
+										    <ul class='dropdown-menu'>
+										        <li><a href='#'><i class='fa fa-cog'></i> Account</a></li>
+										        <li class=divider></li>
+										        <li><a href='#'><i class='fa fa-sign-out'></i> Sign-out</a></li>
+										    </ul>
+										</li>
+			    					";
+			    					break;
+			    				default:
+			    					echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
+
+		        						<li><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>";
+			    					break;
+			    			}
+			    		} else {
+			    			echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
+
+		        				<li><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>";
+			    		}
+			    	?>
 		    	</ul><!-- END navbar Right -->
 
 		    </div><!-- END nav Collapse -->

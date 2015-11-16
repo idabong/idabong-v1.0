@@ -64,28 +64,28 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 					<!-- END STATUS -->
 
 					<form id="login-form" action="login.php" method="post">
+						<!-- EMAIL -->
+						<div class="form-group">
+							<input type="email" class="form-control" name="email" id="email" placeholder="Email" maxlength="80" tabindex='1'/>
+						</div>
 
-					<!-- EMAIL -->
-					<div class="form-group">
-						<input type="email" class="form-control" name="email" id="email" placeholder="Email" maxlength="80" tabindex='1'/>
-					</div>
+						<!-- PASSWORD -->
+						<div class="form-group">
+							<input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" tabindex='2' />
+						</div>
 
-					<!-- PASSWORD -->
-					<div class="form-group">
-						<input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" tabindex='2' />
-					</div>
+						<!-- KEEP USER LOGIN -->
+						<div class="checkbox">
+						    <label>
+						      <input type="checkbox" tabindex='3'> Duy trì đăng nhập
+						    </label>
+						</div>
 
-					<!-- KEEP USER LOGIN -->
-					<div class="checkbox">
-					    <label>
-					      <input type="checkbox" tabindex='3'> Duy trì đăng nhập
-					    </label>
-					</div>
-
-					<div class="form-group"><!-- Submit button -->
-					  <button type="submit" name="submit" class="btn btn-success btn-block" tabindex='4'>Đăng Nhập</button>
-					</div>
+						<div class="form-group"><!-- Submit button -->
+						  <button type="submit" name="submit" class="btn btn-success btn-block" tabindex='4'>Đăng Nhập</button>
+						</div>
 					</form>	
+					
 					<p class="text-primary"><a href="forgot-password.php" tabindex='5'>Quên mật khẩu?</a></p>
 					<!--Social Login -->
 					<a class="btn btn-block btn-social btn-facebook">

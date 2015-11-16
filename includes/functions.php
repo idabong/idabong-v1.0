@@ -2,7 +2,7 @@
 // Define absolute URL
 //define('BASE_URL', 'http://idabong.com/');
 //***LOCAL***//
-define('BASE_URL', 'http://localhost:122/idabong-v1/');
+define('BASE_URL', 'http://localhost:122/idabong-v1.0/');
 
 define('LIVE', TRUE); // FALSE: Developing progress | TRUE: production
 // Checking if database query is Right

@@ -1,23 +1,41 @@
-<?php $title = 'Đăng xuất'; 
+
+<?php
+// Initialize the session.
+// If you are using session_name("something"), don't forget it now!
+session_start();
 
 include('includes/functions.php');
 
- if(isset($_SESSION['first_name'])) {
+if(isset($_SESSION['uid'])) {
     // If user has logined already
-    $_SESSION = array(); // Delete all SESSION
-    session_destroy(); // Destroy session
-    setcookie(session_name(),'', time()-36000); // Erase cookie on browser
-    // Logout successful
-	$message = alert_message(true, 'Bạn đã đăng xuất thành công.'); 
-} 
-?>
+    $_SESSION = array(); // Unset all of the session variables.
 
+    // If it's desired to kill the session, also delete the session cookie.
+	// Note: This will destroy the session, and not just the session data!
+	if (ini_get("session.use_cookies")) {
+	    $params = session_get_cookie_params();
+	    setcookie(session_name(), '', time() - 42000,
+	        $params["path"], $params["domain"],
+	        $params["secure"], $params["httponly"]
+	    );
+	}
+	// Finally, destroy the session.
+	session_destroy();
+
+    // Logout successfully
+    $message = alert_message(false, 'Bạn đã đăng xuất.');
+} else {
+	//If user has NOT logined
+	redirect_to('login.php');
+}
+
+?>
 <!DOCTYPE html>
 <html>
 
 <head>
 	<!-- Website Title & Description for Search Engine purposes -->
-	<title>idabong.com - <?php echo (isset($title)) ? $title : ""; ?></title>
+	<title>idabong.com - Đăng xuất ?></title>
 	<meta name="description" content="Tìm kiếm đội bóng" />
 	<meta charset='UTF-8' />
 
@@ -76,47 +94,8 @@ include('includes/functions.php');
 
 			      	<!-- navbar Left -->
 			    	<ul class="nav navbar-nav navbar-right">
-			    	<?php 
-			    		if (isset($_SESSION['user_level'])) {
-			    			switch ($_SESSION['user_level']) {
-			    				case 0: //Register user access
-			    					echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
-
-			    						<li class='dropdown'>
-										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-										    <img src='css/images/default-avatar-18x18.jpg' class=''> {$_SESSION['first_name']}<b class='caret'></b></a>
-										    <ul class='dropdown-menu'>
-										        <li><a href='".BASE_URL."my-team.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
-										        <li class=divider></li>
-										        <li><a href='".BASE_URL."user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
-										        <li class=divider></li>
-										        <li><a href='".BASE_URL."logout.php'><i class='fa fa-sign-out'></i> Đăng xuất</a></li>
-										    </ul>
-										</li>
-			    					";
-			    					break;
-
-			    				case 2:
-			    					echo "
-			    						<li class='dropdown'>
-										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-										    <img src='' class='profile-image img-circle'> Username <b class='caret'></b></a>
-										    <ul class='dropdown-menu'>
-										        <li><a href='#'><i class='fa fa-cog'></i> Account</a></li>
-										        <li class=divider></li>
-										        <li><a href='#'><i class='fa fa-sign-out'></i> Sign-out</a></li>
-										    </ul>
-										</li>
-			    					";
-			    					break;
-			    				default:
-			    					echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
-
-		        						<li><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>";
-			    					break;
-			    			}
-			    		}
-			    	?>
+			    		<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
+						<li><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>
 			    	</ul><!-- END navbar Right -->
 
 			    </div><!-- END nav Collapse -->
@@ -133,7 +112,7 @@ include('includes/functions.php');
 
 		<div class="col-sm-6"><!-- MAIN COLLUMN-->
 
-			<!-- REGISTER FORM -->
+			<!-- LOGIN FORM -->
 			<div class="panel panel-success">
 				<?php //Alert login message
 			 		if(!empty($message)) echo $message; 
@@ -145,28 +124,28 @@ include('includes/functions.php');
 					<!-- END STATUS -->
 
 					<form id="login-form" action="login.php" method="post">
+						<!-- EMAIL -->
+						<div class="form-group">
+							<input type="email" class="form-control" name="email" id="email" placeholder="Email" maxlength="80" tabindex='1'/>
+						</div>
 
-					<!-- EMAIL -->
-					<div class="form-group">
-						<input type="email" class="form-control" name="email" id="email" placeholder="Email" maxlength="80" tabindex='1'/>
-					</div>
+						<!-- PASSWORD -->
+						<div class="form-group">
+							<input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" tabindex='2' />
+						</div>
 
-					<!-- PASSWORD -->
-					<div class="form-group">
-						<input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" tabindex='2' />
-					</div>
+						<!-- KEEP USER LOGIN -->
+						<div class="checkbox">
+						    <label>
+						      <input type="checkbox" tabindex='3'> Duy trì đăng nhập
+						    </label>
+						</div>
 
-					<!-- KEEP USER LOGIN -->
-					<div class="checkbox">
-					    <label>
-					      <input type="checkbox" tabindex='3'> Duy trì đăng nhập
-					    </label>
-					</div>
-
-					<div class="form-group"><!-- Submit button -->
-					  <button type="submit" name="submit" class="btn btn-success btn-block" tabindex='4'>Đăng Nhập</button>
-					</div>
+						<div class="form-group"><!-- Submit button -->
+						  <button type="submit" name="submit" class="btn btn-success btn-block" tabindex='4'>Đăng Nhập</button>
+						</div>
 					</form>	
+
 					<p class="text-primary"><a href="forgot-password.php" tabindex='5'>Quên mật khẩu?</a></p>
 					<!--Social Login -->
 					<a class="btn btn-block btn-social btn-facebook">
@@ -175,19 +154,17 @@ include('includes/functions.php');
 					<a class="btn btn-block btn-social btn-google">
 						<i class="fa fa-google"></i>Đăng Nhập Bằng Google
 					</a>
-
-					
-
+	
 				</div>
-			</div><!--END REGISTER FORM-->
+			</div><!--END LOGIN FORM-->
 		
-		</div> <!--end MAIN COLLUMN -->
+		</div> <!--END MAIN COLLUMN -->
 			
 		<!-- right collumn -->
 		<div class="col-sm-3">
 
 		</div><!--end .col-sm-3 right collumn -->
-	</div><!-- end MAIN ROW -->
+	</div><!-- END MAIN ROW -->
 
 	
 </div><!--END #content-->
