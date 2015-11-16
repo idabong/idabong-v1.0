@@ -14,7 +14,7 @@
 			<div class="col-sm-6">
 				<div class="pull-left">
 					<p>
-						<a href="http://idabong.com/" id="copyright">idabong.com</a> &copy; 2015  /
+						<a href="index.php" id="copyright">idabong.com</a> &copy; 2015  /
 						<a href="about.php">Giới thiệu</a> / 
 						<a href="contact.php">Liên hệ</a> /
 						<a href="#">Điều khoản</a> /

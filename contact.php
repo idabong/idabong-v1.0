@@ -1,5 +1,4 @@
 <?php $title = 'Liên hệ'; include 'includes/header.php';?>
-<?php include('includes/functions.php');?>
 <div id="content">
 
 	<div class="row"> <!-- MAIN ROW -->
