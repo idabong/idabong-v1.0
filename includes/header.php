@@ -4,7 +4,7 @@ include('includes/mysqli_connect_local.php');
 include('includes/functions.php');
 // If user logined, fetch user's data
 if(isset($_SESSION['uid'])) { 
-	fetch_user($_SESSION['uid']);
+	$user = fetch_user($_SESSION['uid']);
 }
 ?>
 <!DOCTYPE html>
@@ -95,11 +95,11 @@ if(isset($_SESSION['uid'])) {
 			    					echo "
 			    						<li class='dropdown'>
 										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-										    <img src='' class='profile-image img-circle'> Username <b class='caret'></b></a>
+										    <img src='' class='profile-image img-circle'> {$_SESSION['first_name']}<b class='caret'></b></a>
 										    <ul class='dropdown-menu'>
-										        <li><a href='#'><i class='fa fa-cog'></i> Account</a></li>
-										        <li class=divider></li>
-										        <li><a href='#'><i class='fa fa-sign-out'></i> Sign-out</a></li>
+										        <li><a href='user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
+										        
+										        <li><a href='logout.php'><i class='fa fa-sign-out'></i> Đăng xuất</a></li>
 										    </ul>
 										</li>
 			    					";
