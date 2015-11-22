@@ -41,7 +41,7 @@ class CropAvatar {
 
       if ($type) {
         $extension = image_type_to_extension($type);
-        $src = 'uploads/images/' . date('YmdHis') . '.original' . $extension;
+        $src = 'img/' . date('YmdHis') . '.original' . $extension;
 
         if ($type == IMAGETYPE_GIF || $type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG) {
 
@@ -71,7 +71,7 @@ class CropAvatar {
   }
 
   private function setDst() {
-    $this -> dst = 'uploads/images/' . date('YmdHis') . '.png';
+    $this -> dst = 'img/' . date('YmdHis') . '.png';
   }
 
   private function crop($src, $dst, $data) {

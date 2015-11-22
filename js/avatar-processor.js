@@ -18,12 +18,8 @@ function readURL(input) {
 		}
 		//The readAsDataURL method is used to read the contents of the specified Blob or File.
 		reader.readAsDataURL(input.files[0])
-		return true;
 		
-	} else {
-		return false;
-	}
-
+	} 
 }
 
 
@@ -35,7 +31,7 @@ $('#inputImage').on('change', function() {
 $('#cropButton').on('click', function() {
 	var data = $('#editImage').cropper('getCropBoxData');
 	var canvasData = $('#editImage').cropper('getCanvasData');
-	alert(canvasData.toSource());
+	alert(data.toSource());
 }); 
 	
 
