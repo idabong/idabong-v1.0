@@ -112,3 +112,8 @@ body {
 @media (max-width: 414px) {
 #reCaptcha  {transform:scale(0.85);transform-origin:0 0;}
 }
+
+/* --------------------------------------
+    CROPPER PLUGIN
+   -------------------------------------- */
+#imagePreview {overflow:hidden}

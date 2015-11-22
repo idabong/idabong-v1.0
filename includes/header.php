@@ -30,6 +30,9 @@ if(isset($_SESSION['uid'])) {
 	<!-- Font Awesome css -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
+	<!-- Cropper css -->
+	<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.1/dist/cropper.min.css" rel="stylesheet">
+
 	<!-- Custom css -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>

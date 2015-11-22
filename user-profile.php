@@ -1,26 +1,35 @@
 <?php $title = 'Thông tin tài khoản'; include 'includes/header.php';?>
 <!-- Modal -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <form class="modal-title" id="myModalLabel">
-				<div class="form-group">
-					<input id="userAvatar" type="file" class="filestyle" data-classButton="btn btn-success"  data-buttonBefore="true" data-iconName="glyphicon glyphicon-picture" data-buttonText="Chọn ảnh" data-placeholder="Định dạng jpg/png">
-				</div>
-			</form> 
-	      </div>
-	      <div class="modal-body">
-	      	<img id="imgReview" class="img-responsive" src="css/images/default-avatar-64x64.png" alt="user-avatar">
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-	        <button type="button" class="btn btn-success">Cập nhật</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      	<div class="modal-header">
+      		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+      		<!-- modal-title -->
+      		<div id="myModalLabel" class="modal-title">
+				<!-- Input form -->
+				<form class="form-group">
+					<input id="inputImage" type="file" class="filestyle" data-classButton="btn btn-success"  data-buttonBefore="true" data-iconName="glyphicon glyphicon-picture" data-buttonText="Chọn ảnh" data-placeholder="Định dạng jpg/png">
+				</form> 
+				<!-- END input form -->
+			</div><!--END modal-title-->
+	        
+    	</div><!-- END .modal-header -->
+
+		<div class="modal-body">
+          	<!-- Place for edit image -->
+			<img id='editImage' class='img-responsive' src='css/images/default-avatar-64x64.png' alt='edit-image'>
+		</div>
+
+      <div class="modal-footer">    	
+			<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        	<button id="cropButton" type="button" class="btn btn-success">Cập nhật</button>
+      </div>
+    </div><!-- END .modal-content -->
+  </div><!-- END #modal-dialog -->
+</div><!-- END #myModal -->
+	
 <div id="content">
 	
 	<div class="row"> <!-- MAIN ROW -->
@@ -105,10 +114,16 @@
 <!-- Vietnamese reCaptcha by Google-->
 <script src='https://www.google.com/recaptcha/api.js?hl=vi'></script>
 
+
+<!--Filestyle -->
+<script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
+
+<!-- Cropper -->
+<script src="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.1/dist/cropper.min.js"></script>
+
 <!-- Custom JS -->
 <script language="javascript" type="text/javascript" src="js/validate-forms.js"></script>
-<script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
-<script language="javascript" type="text/javascript" src="js/image-processor.js"></script>
+<script language="javascript" type="text/javascript" src="js/avatar-processor.js"></script>
 </body>
 
 </html>
