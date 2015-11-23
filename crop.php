@@ -1,4 +1,25 @@
 <?php
+ini_set('session.use_only_cookies', true); session_start(); 
+//Include functions
+include('includes/functions.php');
+
+// Database connect local
+//***LOCAL***//
+$db_connect = mysqli_connect('localhost', 'root', '', 'idabong');
+
+// Database connect
+//$db_connect = mysqli_connect('localhost', 'idabong_admin','DevelopVNfootball2015','idabong_database');
+
+// If could not connect
+if(!$db_connect) {
+    trigger_error("Could not connect to DB: " . mysqli_connect_error());
+    echo "<p class='well'>Could not connect to database</p>";
+} else {
+    // utf-8 for Vietnamese
+    mysqli_set_charset($db_connect, 'utf-8');
+}
+
+//Cropper
 class CropAvatar {
   private $src;
   private $data;
@@ -214,6 +235,12 @@ $crop = new CropAvatar(
   isset($_FILES['avatar_file']) ? $_FILES['avatar_file'] : null
 );
 
+/*/if(empty($crop->getMsg())) {
+  $avatarName = date('YmdHis');
+  $query = "UPDATE user SET avatar = $avatarName WHERE uid = $_SESSION['uid'] LIMIT 1";
+  $update_result = mysqli_query($db_connect, $query); confirm_query($update_result, $query); 
+}*/
+
 $response = array(
   'state'  => 200,
   'message' => $crop -> getMsg(),
@@ -221,3 +248,6 @@ $response = array(
 );
 
 echo json_encode($response);
+
+
+?>

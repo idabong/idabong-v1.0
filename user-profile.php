@@ -24,11 +24,12 @@
                 <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
+
                       <form class="avatar-form" action="crop.php" enctype="multipart/form-data" method="post">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
                           <div class="modal-title" id="avatar-modal-label">
-                              <input id="avatarInput" type="file" class="avatar-input filestyle" name="avatar_file" data-classButton="btn btn-success"  data-buttonBefore="true" data-iconName="glyphicon glyphicon-picture" data-buttonText="Chọn ảnh" data-placeholder="Định dạng jpg/png">
+                              <input id="avatarInput" type="file" class="avatar-input filestyle" name="avatar_file" data-buttonBefore="true" data-iconName="glyphicon glyphicon-picture" data-buttonText="Chọn ảnh" data-placeholder="Định dạng jpg/png, dung lượng không quá 10M">
                           </div>
                         </div>
 
@@ -57,6 +58,7 @@
                           <button type="submit" class="btn btn-success btn-block avatar-save">Cập nhật</button>
                         </div>
                       </form>
+
                     </div>
                   </div>
                 </div><!-- /.modal -->
@@ -75,12 +77,12 @@
 
                 <div class="form-group">
                     <input type="text" name="first_name" class="form-control" id="first_name" size="20" maxlength="80"  placeholder="Tên" value="<?php if(isset($user['first_name'])) echo $user['first_name']; ?>" tabindex="4">
-                  </div>
+                </div>
                  
 
-                  <div class="form-group">
-                    <input type="tel" name="tel" id="tel" class="form-control" size="20" maxlength="80"  placeholder="Điện thoại di động" value="<?php if(isset($user['phone'])) echo $user['phone']; ?>" tabindex="5">
-                  </div>
+                <div class="form-group">
+                  <input type="tel" name="tel" id="tel" class="form-control" size="20" maxlength="80"  placeholder="Điện thoại di động" value="<?php if(isset($user['phone'])) echo $user['phone']; ?>" tabindex="5">
+                </div>
               </form>
             </div><!-- End .media body -->
             <a href="#" target="_blank" class="btn btn-success btn-block" tabindex="6">Cập Nhật</a>
