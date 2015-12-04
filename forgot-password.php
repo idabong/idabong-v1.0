@@ -1,7 +1,5 @@
 <?php 
 $title = 'Quên mật khẩu'; include 'includes/header.php';
-include 'includes/mysqli_connect_local.php';
-include 'includes/functions.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Form Handling
@@ -30,7 +28,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         if(mysqli_num_rows($result) == 1) {
             list($uid) = mysqli_fetch_array($result, MYSQLI_NUM);
             // Create an temporary password
-            $temp_password = substr(md5(uniqid(rand(), true), 4, 6));
+            $temp_password = substr(md5(uniqid(rand(), true)), 4, 6);
 
             //Prepare 4 variables $from, $to, $subject, $body in order to send Activation mail
             $from = 'idabong.com@gmail.com';

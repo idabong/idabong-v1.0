@@ -118,7 +118,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         // If $errors is NOT empty
          $message = alert_message(false, 'Vui lòng kiểm tra thông tin.'); 
     }
-}// END main IF
+}// END IF Post
 ?>
 
 <!DOCTYPE html>

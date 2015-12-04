@@ -1,5 +1,6 @@
 <?php
 ini_set('session.use_only_cookies', true); session_start(); 
+
 //Include functions
 include('includes/functions.php');
 
@@ -19,9 +20,9 @@ if(!$db_connect) {
     mysqli_set_charset($db_connect, 'utf-8');
 }
 
-//Cropper
+//***********Cropper***********//
 class CropAvatar {
-  private $src;
+  public $src;
   private $data;
   private $dst;
   private $type;
@@ -81,10 +82,10 @@ class CropAvatar {
              $this -> msg = 'Failed to save file';
           }
         } else {
-          $this -> msg = 'Please upload image with the following types: JPG, PNG, GIF';
+          $this -> msg = 'Vui lòng upload hình ảnh với định dạng JPG, PNG';
         }
       } else {
-        $this -> msg = 'Please upload image file';
+        $this -> msg = 'Vui lòng upload file hình ảnh.';
       }
     } else {
       $this -> msg = $this -> codeToMessage($errorCode);
@@ -124,25 +125,6 @@ class CropAvatar {
       $src_img_h = $size_h;
 
       $degrees = $data -> rotate;
-
-      // Rotate the source image
-      if (is_numeric($degrees) && $degrees != 0) {
-        // PHP's degrees is opposite to CSS's degrees
-        $new_img = imagerotate( $src_img, -$degrees, imagecolorallocatealpha($src_img, 0, 0, 0, 127) );
-
-        imagedestroy($src_img);
-        $src_img = $new_img;
-
-        $deg = abs($degrees) % 180;
-        $arc = ($deg > 90 ? (180 - $deg) : $deg) * M_PI / 180;
-
-        $src_img_w = $size_w * cos($arc) + $size_h * sin($arc);
-        $src_img_h = $size_w * sin($arc) + $size_h * cos($arc);
-
-        // Fix rotated image miss 1px issue when degrees < 0
-        $src_img_w -= 1;
-        $src_img_h -= 1;
-      }
 
       $tmp_img_w = $data -> width;
       $tmp_img_h = $data -> height;
@@ -199,6 +181,11 @@ class CropAvatar {
 
       imagedestroy($src_img);
       imagedestroy($dst_img);
+
+      //Delete original uploaded file-Tran Dai added
+      if (file_exists($src)) {
+        unlink($src);
+      }
     }
   }
 
@@ -235,12 +222,6 @@ $crop = new CropAvatar(
   isset($_FILES['avatar_file']) ? $_FILES['avatar_file'] : null
 );
 
-/*/if(empty($crop->getMsg())) {
-  $avatarName = date('YmdHis');
-  $query = "UPDATE user SET avatar = $avatarName WHERE uid = $_SESSION['uid'] LIMIT 1";
-  $update_result = mysqli_query($db_connect, $query); confirm_query($update_result, $query); 
-}*/
-
 $response = array(
   'state'  => 200,
   'message' => $crop -> getMsg(),
@@ -248,6 +229,20 @@ $response = array(
 );
 
 echo json_encode($response);
+//***********END Cropper***********//
 
 
+//If there is no error, update database
+if(empty($crop->getMsg())) {
+  //Delete old avatar
+  $user = fetch_user($_SESSION['uid']);
+  if(isset($user['avatar'])) {
+    unlink($user['avatar']);
+  }
+
+  //Update new avatar
+  $avatarLink = $crop -> getResult();
+  $q = "UPDATE user SET avatar = '{$avatarLink}' WHERE uid = {$_SESSION['uid']} LIMIT 1";
+  $update_result = mysqli_query($db_connect, $q);
+}
 ?>

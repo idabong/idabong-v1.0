@@ -91,7 +91,7 @@
           });
       var _this = this;
 
-      // Ready ifrmae
+      // Ready iframe
       $iframe.one('load', function () {
 
         // respond response
@@ -307,6 +307,8 @@
       this.$avatar.attr('src', this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
+      //Change avatar on navbar
+      $('#navbarAvatar').attr('src', this.url);
     },
 
     alert: function (msg) {

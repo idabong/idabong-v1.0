@@ -1,4 +1,74 @@
-<?php $title = 'Thông tin tài khoản'; include 'includes/header.php';?>
+<?php $title = 'Thông tin tài khoản'; include 'includes/header.php';
+//Check if user logged in?
+is_logged_in();
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Form Handling
+    //Errors flag
+    $errors = array();
+    //update flag
+    $updates = array(); 
+    //Validate first_name
+    if(!empty($_POST['first_name'])) {
+      if(preg_match('/^[a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ \'-]{2,40}$/u', trim($_POST['first_name']))) {
+        $first_name = mysqli_real_escape_string($db_connect, trim($_POST['first_name']));
+        $query = "UPDATE user SET first_name = '{$first_name}' WHERE uid = '{$_SESSION['uid']}' LIMIT 1";
+        $result = mysqli_query($db_connect, $query); confirm_query($result, $query);
+        if(mysqli_affected_rows($db_connect) == 1) {
+           //if updated successfully
+            $message = alert_message(true, "Cập nhật thành công."); 
+        } else {
+            //NOT successfully.
+            $message = alert_message(false, 'Lỗi hệ thống. Vui lòng thử lại sau.');
+        }
+      } else {
+        $errors[] = 'first_name';
+      }
+    }
+      
+    //Validate last_name
+    if(!empty($_POST['last_name'])) {
+      if(preg_match('/^[a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ \'-]{2,40}$/u', trim($_POST['last_name']))) {
+        $last_name = mysqli_real_escape_string($db_connect, trim($_POST['last_name']));
+        $query = "UPDATE user SET last_name = '{$last_name}' WHERE uid = '{$_SESSION['uid']}' LIMIT 1";
+        $result = mysqli_query($db_connect, $query); confirm_query($result, $query);
+        if(mysqli_affected_rows($db_connect) == 1) {
+           //if updated successfully
+            $message = alert_message(true, "Cập nhật thành công."); 
+        } else {
+            //NOT successfully.
+            $message = alert_message(false, 'Lỗi hệ thống. Vui lòng thử lại sau.');
+        }
+      } else {
+        $errors[] = 'last_name';  
+      }
+    } 
+
+    //Validate Vietnam mobile phone number
+    if(!empty($_POST['tel'])) {
+      if(preg_match('/^0[19][0-9]{8,9}$/', trim($_POST['tel']))) {
+        $phone = mysqli_real_escape_string($db_connect, trim($_POST['tel']));
+        $query = "UPDATE user SET phone = '{$phone}' WHERE uid = '{$_SESSION['uid']}' LIMIT 1";
+        $result = mysqli_query($db_connect, $query); confirm_query($result, $query);
+        if(mysqli_affected_rows($db_connect) == 1) {
+           //if updated successfully
+            $message = alert_message(true, "Cập nhật thành công."); 
+        } else {
+            //NOT successfully.
+            $message = alert_message(false, 'Lỗi hệ thống. Vui lòng thử lại sau.');
+        }
+      } else {
+        $errors[] = 'phone';
+      }
+    } 
+
+    if(!empty($errors)) {        
+        // If $errors is NOT empty
+        $message = alert_message(false, 'Vui lòng kiểm tra thông tin.'); 
+    }
+}// END main IF
+?>
+
 <div id="content">
   
   <div class="row"> <!-- MAIN ROW -->
@@ -8,15 +78,17 @@
     </div><!--end .col-sm-3 left collumn -->
 
     <div class="col-sm-6"><!-- MAIN COLLUMN-->
+      <div id="alert"></div>
       <div class="panel panel-success"><!--Team Avatar Form-->
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-user"></span> Thông tin cá nhân</strong></div>
+        
         <div class="panel-body">
           <div class="media">
             <div  class="media-left">
                <div id="crop-avatar">
                 <!-- Current avatar -->
                 <div class="media-object avatar-view">
-                  <img class="thumbnail" src="css/images/default-avatar-64x64.png" alt="user-Avatar">
+                  <img class="thumbnail" src="<?php echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-100x100.png'; ?>" alt="user-Avatar">
                   <p class="btn btn-block"><span class="badge"><span class="glyphicon glyphicon-picture"></span></span></p>
                 </div>
 
@@ -40,6 +112,7 @@
                             <div class="avatar-upload">
                               <input type="hidden" class="avatar-src" name="avatar_src">
                               <input type="hidden" class="avatar-data" name="avatar_data">
+                              <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
                             </div>
 
                             <!-- Crop and preview -->
@@ -64,13 +137,13 @@
                 </div><!-- /.modal -->
 
                 <!-- Loading state -->
-                <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+              <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
               </div><!-- END #crop-avatar -->
               
             </div><!-- END .media-left -->
             
             <div class="media-body">
-              <form>
+              <form id="user-info-form" method="post">
                 <div class="form-group">
                     <input type="text" name="last_name" class="form-control" id="last_name" size="20" maxlength="80"  placeholder="Họ" value="<?php if(isset($user['last_name'])) echo $user['last_name']; ?>" tabindex="4">
                   </div>
@@ -83,12 +156,15 @@
                 <div class="form-group">
                   <input type="tel" name="tel" id="tel" class="form-control" size="20" maxlength="80"  placeholder="Điện thoại di động" value="<?php if(isset($user['phone'])) echo $user['phone']; ?>" tabindex="5">
                 </div>
+                <button  id="user-button" type="button" class="btn btn-success btn-block" tabindex="6">Cập Nhật</button>
               </form>
             </div><!-- End .media body -->
-            <a href="#" target="_blank" class="btn btn-success btn-block" tabindex="6">Cập Nhật</a>
+            
           </div><!-- End .media -->
         </div><!-- End .panel-body -->
       </div><!--END Team Avatar Form-->
+
+      
 
       <div class="panel panel-success"><!-- Form Change Password-->
         <div class="panel-heading"><strong><i class="fa fa-key fa-fw"></i> Thay đổi mật khẩu</strong></div>
@@ -96,17 +172,17 @@
           <form>
             <!-- OLD PASSWORD -->
               <div class="form-group">
-                <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Mật khẩu cũ" value="<?php if(isset($_POST['oldPassword'])) echo $_POST['oldPassword']; ?>" tabindex='7' />
+                <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Mật khẩu cũ" tabindex='7' />
               </div>
 
             <!-- NEW PASSWORD -->
               <div class="form-group">
-                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Mật khẩu mới" value="<?php if(isset($_POST['newPassword'])) echo $_POST['newPassword']; ?>" tabindex='8' />
+                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Mật khẩu mới"  tabindex='8' />
               </div>
 
               <!-- CONFIRM NEW PASSOWD -->
               <div class="form-group">
-                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="Xác nhận mật khẩu mới" value="<?php if(isset($_POST['confirmNewPassword'])) echo $_POST['confirmNewPassword']; ?>" tabindex='9' />
+                <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword" placeholder="Xác nhận mật khẩu mới" tabindex='9' />
               </div>
 
             <a href="#" target="_blank" class="btn btn-success btn-block" tabindex='10'>Cập Nhật</a>
@@ -139,6 +215,7 @@
 
 <!-- Custom JS -->
 <script language="javascript" type="text/javascript" src="js/validate-forms.js"></script>
+<script language="javascript" type="text/javascript" src="js/user-handling.js"></script>
 
 </body>
 

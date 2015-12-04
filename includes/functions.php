@@ -2,7 +2,7 @@
 // Define absolute URL
 //define('BASE_URL', 'http://idabong.com/');
 //***LOCAL***//
-define('BASE_URL', 'http://localhost:122/idabong-v1.0/');
+define('BASE_URL', 'http://localhost/idabong-v1.0/');
 
 define('LIVE', TRUE); // FALSE: Developing progress | TRUE: production
 // Checking if database query is Right
@@ -124,5 +124,10 @@ function fetch_user($user_id) {
         return FALSE;
     }
 } // END fetch_user
+
+//Check if user logined?
+function is_logged_in() {
+    if(!isset($_SESSION['uid'])) {redirect_to('login.php');} 
+}
 ?>
  
