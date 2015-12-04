@@ -136,8 +136,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                   </div>
                 </div><!-- /.modal -->
 
-                <!-- Loading state -->
-              <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+               
               </div><!-- END #crop-avatar -->
               
             </div><!-- END .media-left -->
@@ -216,7 +215,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!-- Custom JS -->
 <script language="javascript" type="text/javascript" src="js/validate-forms.js"></script>
 <script language="javascript" type="text/javascript" src="js/user-handling.js"></script>
-
+ <!-- Loading state -->
+<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 </body>
 
 </html>

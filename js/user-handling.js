@@ -39,16 +39,15 @@ $('#user-info-form').validate({ // initialize the plugin
 });//END Validate #user-info
 
 $(document).ajaxStart(function() {
-    $('#alert').html("<div class='alert-success alert alert-dismissible' role='alert'>
-            <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>    
-            <i class='fa fa-refresh fa-spin'></i> Đang xử lý...</div>");
+    $('.loading').show();
+});
+
+$(document).ajaxStop(function() {
+    $('.loading').hide();
 });
 
 $('#user-button').click(function() {
-    $('#alert').html("<div class='alert-success alert alert-dismissible' role='alert'>
-            <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>    
-            <i class='fa fa-refresh fa-spin'></i> Đang xử lý...</div>");
-    /*
+    
     var first_name = $('#first_name').val();
     var last_name = $('#last_name').val();
     var tel = $('#tel').val();
@@ -70,7 +69,7 @@ $('#user-button').click(function() {
             }
         }
     });
-    */
+
 });
 
 });

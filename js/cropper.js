@@ -16,12 +16,13 @@
   var console = window.console || { log: function () {} };
 
   function CropAvatar($element) {
+    this.$body = $('body');
     this.$container = $element;
 
     this.$avatarView = this.$container.find('.avatar-view');
     this.$avatar = this.$avatarView.find('img');
     this.$avatarModal = this.$container.find('#avatar-modal');
-    this.$loading = this.$container.find('.loading');
+    this.$loading = this.$body.find('.loading');
 
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
     this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
