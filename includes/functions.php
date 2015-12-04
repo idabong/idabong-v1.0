@@ -124,5 +124,10 @@ function fetch_user($user_id) {
         return FALSE;
     }
 } // END fetch_user
+
+//Check if user logined?
+function is_logged_in() {
+    if(!isset($_SESSION['uid'])) {redirect_to('login.php');} 
+}
 ?>
  

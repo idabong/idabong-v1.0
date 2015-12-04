@@ -118,7 +118,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         // If $errors is NOT empty
          $message = alert_message(false, 'Vui lòng kiểm tra thông tin.'); 
     }
-}// END main IF
+}// END IF Post
 ?>
 
 <!DOCTYPE html>
@@ -129,10 +129,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<title>idabong.com - Kết nối đam mê đá bóng</title>
 	<meta name="description" content="Tìm kiếm đội bóng" />
 	<meta charset='UTF-8' />
-
-	<!-- Google Login: GoogleAuth Library -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-	<script src="https://apis.google.com/js/api:client.js"></script>
 
 	<!-- Add favicon to website -->
 	<link href="css/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -282,11 +278,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			
 				</div><!-- end myCarousel -->
 
-				<div id="message-alert">
-					<?php //Alert $message
-				 	if(!empty($message)) echo $message;
-					?>
-				</div>
+				<?php //Alert $message
+			 	if(!empty($message)) echo $message; 
+				?>
 
 				<!-- REGISTER FORM -->
 				<div class="panel panel-success">
@@ -328,11 +322,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 						</form>	
 						  <!--Social Login -->
 						  <a class="btn btn-block btn-social btn-facebook">
-						  	<i class="fa fa-facebook"></i>Đăng Kí Bằng Facebook
+						  	<i class="fa fa-facebook"></i>Đăng Ký Bằng Facebook
 						  </a>
-						  <a id="customBtn" class="btn btn-block btn-social btn-google">
-							<i class="fa fa-google"></i>Đăng Kí Bằng Google
+						  <a class="btn btn-block btn-social btn-google">
+						  	<i class="fa fa-google"></i>Đăng Ký Bằng Google
 						  </a>
+
+						
 
 					</div>
 				</div><!--END REGISTER FORM-->
@@ -356,10 +352,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!-- Custom JS -->
 <script language="javascript" type="text/javascript" src="js/validate-forms.js"></script>
-
-<!-- Google Login -->
-<script language="javascript" type="text/javascript" src="js/login-google.js"></script>
-<script> startApp(); </script>
 
 </body>
 
