@@ -1,4 +1,7 @@
 <?php $title = 'Đăng nhập'; include 'includes/header.php';
+if(isset($_SESSION['uid'])) {
+	redirect_to('index.php');
+}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Form Handling

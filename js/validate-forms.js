@@ -20,8 +20,8 @@ $('#contact-form').validate({ // initialize the plugin
             email: 'Oops! Email không đúng.'
         },
         comment: {
-            required: 'Oops! Vui lòng điền phản hồi của bạn.',
-            minlength: 'Oops! Phản hồi phải nhiều hơn 5 ký tự.'
+            required: 'Oops! Vui lòng điền ý kiến của bạn.',
+            minlength: 'Oops! Ý kiến phải nhiều hơn 5 ký tự.'
         }
     },
 });//END Validate Contact-form

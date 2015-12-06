@@ -95,7 +95,7 @@ if(isset($_SESSION['uid'])) {
 										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
 										    <img id='navbarAvatar' ' width='20' height='20' src='";
 									echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-20x20.png';
-									echo "'> {$_SESSION['first_name']}<b class='caret'></b></a>
+									echo "'> <span id='navbarName'>{$_SESSION['first_name']}</span><b class='caret'></b></a>
 										    <ul class='dropdown-menu'>
 										        <li><a href='my-team.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
 										        
