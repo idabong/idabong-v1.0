@@ -192,21 +192,21 @@ if(isset($_POST['oldPassword']) && preg_match('/^\w{6,30}$/', $_POST['oldPasswor
             <div class="media-body">
 
                   <p>
-                    <span id="displayLn">Họ: <?php if(isset($user['last_name'])) echo $user['last_name'];?></span>
+                    <span id="displayLn">Họ: <strong class="text-success"><?php if(isset($user['last_name'])) echo $user['last_name'];?></span></strong>
                     <span style='cursor: pointer' data-toggle="modal" data-target="#lastNameModal" class="label label-success pull-right">
                       <i title="Thay đổi" class="fa fa-pencil-square-o"></i> <small>Thay đổi</small>
                     </span>
                   </p>
 
                   <p>
-                    <span id="displayFn">Tên: <?php if(isset($user['first_name'])) echo $user['first_name'];?></span>
+                    <span id="displayFn">Tên: <strong class="text-success"><?php if(isset($user['first_name'])) echo $user['first_name'];?></span></strong>
                     <span style='cursor: pointer' data-toggle="modal" data-target="#firstNameModal" class="label label-success pull-right">
                     <i title="Thay đổi" class="fa fa-pencil-square-o"></i> <small>Thay đổi</small>
                     </span>
                   </p>
 
                   <p>
-                    <span id="displayPhone">Số ĐTDĐ: <?php if(isset($user['phone'])) echo $user['phone'];?></span>
+                    <span id="displayPhone">Số ĐTDĐ: <strong class="text-success"><?php if(isset($user['phone'])) echo $user['phone'];?></span></strong>
                     <span style='cursor : pointer' data-toggle="modal" data-target="#phoneModal" class="label label-success pull-right">
                     <i title="Thay đổi" class="fa fa-pencil-square-o"></i> <small>Thay đổi</small>
                     </span>

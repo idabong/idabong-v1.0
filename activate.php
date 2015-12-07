@@ -1,8 +1,5 @@
 <?php 
 $title = 'Kích hoạt tài khoản'; include 'includes/header.php';
-//***LOCAL***//
-include 'includes/mysqli_connect_local.php';
-include 'includes/functions.php';
 ?>
 <div id="content">
     
@@ -37,7 +34,7 @@ include 'includes/functions.php';
                                 </div>";
                         } else {
                             //Activate user
-                            $query = "UPDATE user SET active = NULL WHERE email = '{$email}' AND active = '{$hash}' LIMIT 1";
+                            $query = "UPDATE user SET active = NULL, expired = NULL WHERE email = '{$email}' AND active = '{$hash}' LIMIT 1";
                             $result = mysqli_query($db_connect, $query); confirm_query($result, $query);
                             if(mysqli_affected_rows($db_connect) == 1) {
                                 //If activate successfully
@@ -91,7 +88,7 @@ include 'includes/functions.php';
 </noscript>
 <!--[if lt IE 9]><script type="text/javascript">var IE_fix=true;</script><![endif]-->
 <script type="text/javascript">
-    var url = "http://idabong.com/login.php";
+    var url = "http://localhost/idabong-v1.0/login.php";
     var delay = "10000";
     window.onload = function ()
     {

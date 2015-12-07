@@ -7,9 +7,15 @@ ini_set('max_execution_time', 300);
 
 include('includes/mysqli_connect_local.php');
 include('includes/functions.php');
+include('includes/remember-me.php');
+//Check if user was remembered.
+$rememberUser = rememberMe();
+
 // If user logined, fetch user's data
 if(isset($_SESSION['uid'])) { 
 	$user = fetch_user($_SESSION['uid']);
+} else if(isset($rememberUser)) {
+	$user = $rememberUser;
 }
 ?>
 <!DOCTYPE html>

@@ -77,7 +77,7 @@ $.ajax({
     success: function(response) {
         var response = response.trim(); 
         if(response == first_name) {
-            $('#displayFn').html("Tên: "+response);
+            $('#displayFn').html("Tên: <strong class='text-success'>"+response+"</strong>");
             $('.alert').addClass('hidden');
             $('.alert-success').removeClass('hidden');
         } else if(response == 'NO') {
@@ -100,7 +100,7 @@ $.ajax({
     success: function(response) {
         var response = response.trim(); 
         if(response == last_name) {
-            $('#displayLn').html("Họ: "+response);
+            $('#displayLn').html("Họ: <strong class='text-success'>"+response+"</strong>");
             $('.alert').addClass('hidden');
             $('.alert-success').removeClass('hidden');
         } else if(response == 'NO') {
@@ -123,7 +123,7 @@ $('#phoneSave').click(function() {
         success: function(response) {
             var response = response.trim(); 
             if(response == phone) {
-                $('#displayPhone').html("Số ĐTDĐ: "+response);
+                $('#displayPhone').html("Số ĐTDĐ: <strong class='text-success'>"+response+"</strong>");
                 $('.alert').addClass('hidden');
                 $('.alert-success').removeClass('hidden');
             } else if(response == 'NO') {

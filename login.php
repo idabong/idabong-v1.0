@@ -1,5 +1,5 @@
 <?php $title = 'Đăng nhập'; include 'includes/header.php';
-if(isset($_SESSION['uid'])) {
+if(isset($user)) {
 	redirect_to('index.php');
 }
 
@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $errors[] = 'password';
     }
-    
+
 	if(empty($errors)) {
 		// Connect to database to get user's info
 		$query = "SELECT uid, first_name, user_level FROM user WHERE email = '{$email}' AND password = SHA1('$password') AND COALESCE(active, '') = ''";
@@ -34,7 +34,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$_SESSION['uid'] = $uid;
 			$_SESSION['first_name'] = $first_name;
 			$_SESSION['user_level'] = $user_level;
-			                
+
+			//Remember user
+		    if(isset($_POST['remember'])) {
+		    	onLogin($_SESSION['uid']);
+		    }
+
 			redirect_to('user-profile.php');
 		} else {
 			//Wrong account
@@ -61,10 +66,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			 		if(!empty($message)) echo $message; 
 				?>
 				<div class="panel-body">
-					<!-- ALERT STATUS -->
-					<div id="alert" class="hidden alert">	
-					</div>
-					<!-- END STATUS -->
 
 					<form id="login-form" action="login.php" method="post">
 						<!-- EMAIL -->
@@ -80,7 +81,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 						<!-- KEEP USER LOGIN -->
 						<div class="checkbox">
 						    <label>
-						      <input type="checkbox" tabindex='3'> Duy trì đăng nhập
+						      <input name="remember" id="remember" type="checkbox" tabindex='3'> Duy trì đăng nhập
 						    </label>
 						</div>
 

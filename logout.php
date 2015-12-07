@@ -4,9 +4,13 @@
 // If you are using session_name("something"), don't forget it now!
 session_start();
 
+include('includes/mysqli_connect_local.php');
 include('includes/functions.php');
 
 if(isset($_SESSION['uid'])) {
+	$query = "UPDATE user SET remember_me = NULL WHERE uid = {$_SESSION['uid']}";
+	$result = mysqli_query($db_connect, $query); confirm_query($result, $query);
+
     // If user has logined already
     $_SESSION = array(); // Unset all of the session variables.
 
@@ -18,6 +22,9 @@ if(isset($_SESSION['uid'])) {
 	        $params["path"], $params["domain"],
 	        $params["secure"], $params["httponly"]
 	    );
+
+	    setcookie('rememberme', '', time() - 42000);
+
 	}
 	// Finally, destroy the session.
 	session_destroy();
@@ -113,49 +120,10 @@ if(isset($_SESSION['uid'])) {
 		<div class="col-sm-6"><!-- MAIN COLLUMN-->
 
 			<!-- LOGIN FORM -->
-			<div class="panel panel-success">
+			<div class="well">
 				<?php //Alert login message
 			 		if(!empty($message)) echo $message; 
 				?>
-				<div class="panel-body">
-					<!-- ALERT STATUS -->
-					<div id="alert" class="hidden alert">	
-					</div>
-					<!-- END STATUS -->
-
-					<form id="login-form" action="login.php" method="post">
-						<!-- EMAIL -->
-						<div class="form-group">
-							<input type="email" class="form-control" name="email" id="email" placeholder="Email" maxlength="80" tabindex='1'/>
-						</div>
-
-						<!-- PASSWORD -->
-						<div class="form-group">
-							<input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" tabindex='2' />
-						</div>
-
-						<!-- KEEP USER LOGIN -->
-						<div class="checkbox">
-						    <label>
-						      <input type="checkbox" tabindex='3'> Duy trì đăng nhập
-						    </label>
-						</div>
-
-						<div class="form-group"><!-- Submit button -->
-						  <button type="submit" name="submit" class="btn btn-success btn-block" tabindex='4'>Đăng Nhập</button>
-						</div>
-					</form>	
-
-					<p class="text-primary"><a href="forgot-password.php" tabindex='5'>Quên mật khẩu?</a></p>
-					<!--Social Login -->
-					<a class="btn btn-block btn-social btn-facebook">
-						<i class="fa fa-facebook"></i>Đăng Nhập Bằng Facebook
-					</a>
-					<a class="btn btn-block btn-social btn-google">
-						<i class="fa fa-google"></i>Đăng Nhập Bằng Google
-					</a>
-	
-				</div>
 			</div><!--END LOGIN FORM-->
 		
 		</div> <!--END MAIN COLLUMN -->
