@@ -137,7 +137,7 @@ if(isset($_SESSION['uid'])) {
 			    		} else {
 			    			echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
 
-		        				<li><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>";
+		        				<li id='navUser'><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>";
 			    		}
 			    	?>
 			    	</ul><!-- END navbar Right -->

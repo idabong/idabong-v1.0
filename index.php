@@ -86,7 +86,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $body .="<div>-------------------</div>
                 		<p><i>Nhóm phát triển <a href='http://idabong.com' target='_blank'>idabong.com</a></i></p>
                 		<p><i>Email: hotro.idabong@gmail.com</i></p>
-                		<p><i>ĐT (+84) 971 499 715</i></p>";
+                		<p><i>ĐT1 (+84) 971 499 715 - Đại</i></p>
+            			<p><i>ĐT2 (+84) 901 188 672 - Văn</i></p>";
 
                 //Create an activation link to test in Localhost
                	//***LOCAL***//

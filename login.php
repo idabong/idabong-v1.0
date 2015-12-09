@@ -59,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		</div><!--end .col-sm-3 left collumn -->
 
 		<div class="col-sm-6"><!-- MAIN COLLUMN-->
-
+			
 			<!-- REGISTER FORM -->
 			<div class="panel panel-success">
 				<?php //Alert login message
@@ -92,14 +92,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 					
 					<p class="text-primary"><a href="forgot-password.php" tabindex='5'>Quên mật khẩu?</a></p>
 					<!--Social Login -->
-					<a class="btn btn-block btn-social btn-facebook">
+					<button id='facebookLogin' class="btn btn-block btn-social btn-facebook">
 						<i class="fa fa-facebook"></i>Đăng Nhập Bằng Facebook
-					</a>
-					<a class="btn btn-block btn-social btn-google">
+					</button>
+					<button class="btn btn-block btn-social btn-google">
 						<i class="fa fa-google"></i>Đăng Nhập Bằng Google
-					</a>
-
-					
+					</button>
 
 				</div>
 			</div><!--END REGISTER FORM-->
@@ -121,6 +119,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!-- Custom JS -->
 <script language="javascript" type="text/javascript" src="js/validate-forms.js"></script>
+<script language="javascript" type="text/javascript" src="js/facebook-login.js"></script>
+
+<!--
+  Below we include the Login Button social plugin. This button uses
+  the JavaScript SDK to present a graphical Login button that triggers
+  the FB.login() function when clicked.
+-->
+
 
 </body>
 
