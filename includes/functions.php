@@ -20,6 +20,10 @@ function redirect_to($page = 'index.php') {
     exit();
 }
 
+//Check if user logined?
+function is_logged_in() {
+    if(!isset($_SESSION['uid'])) {redirect_to('login.php');} 
+}
 
 // prevent spam email
 function clean_email($value) {
@@ -125,9 +129,21 @@ function fetch_user($user_id) {
     }
 } // END fetch_user
 
-//Check if user logined?
-function is_logged_in() {
-    if(!isset($_SESSION['uid'])) {redirect_to('login.php');} 
-}
+
+
+//Fetch user's information
+function fetch_team($user_id) {
+    global $db_connect;
+    $query = "SELECT * FROM team AS t INNER JOIN province AS p ON t.provinceid=p.provinceid WHERE t.uid = {$user_id}";
+    $result = mysqli_query($db_connect, $query); confirm_query($result, $query);
+
+    if(mysqli_num_rows($result) == 1) {
+        // If successfully
+        return $result_set = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    } else {
+        // If NOT successfully
+        return FALSE;
+    }
+} // END fetch_user
 ?>
  

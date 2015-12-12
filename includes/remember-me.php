@@ -93,7 +93,7 @@ function rememberMe() {
             
             //Log user in
             // Fetch user's information
-            return $userInfo = fetch_user($user);
+            return $user;
             //replace the current session id with a new one
             session_regenerate_id();
 

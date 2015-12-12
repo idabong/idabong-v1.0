@@ -92,7 +92,7 @@ function FbLogin() {
                 console.log(ajaxResponse);
                 if(ajaxResponse == 'YES') {
                     //redirect to my-team page
-                    window.location = "http://localhost/idabong-v1.0/my-team.php";
+                    window.location = "http://localhost/idabong-v1.0/team-profile.php";
                 }
             }
         }); 

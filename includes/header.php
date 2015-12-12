@@ -15,7 +15,8 @@ $rememberUser = rememberMe();
 if(isset($_SESSION['uid'])) { 
 	$user = fetch_user($_SESSION['uid']);
 } else if(isset($rememberUser)) {
-	$user = $rememberUser;
+	$_SESSION['uid'] = $rememberUser;
+	$user = fetch_user($_SESSION['uid']);
 }
 ?>
 <!DOCTYPE html>
@@ -40,6 +41,9 @@ if(isset($_SESSION['uid'])) {
 
 	<!-- Font Awesome css -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+	<!-- Bootstrap rating css -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-rating.css">
 
 	<!-- Cropper css -->
 	<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.1/dist/cropper.min.css" rel="stylesheet">
@@ -92,8 +96,8 @@ if(isset($_SESSION['uid'])) {
 			      	<!-- navbar Left -->
 			    	<ul class="nav navbar-nav navbar-right">
 			    	<?php 
-			    		if (isset($_SESSION['user_level'])) {
-			    			switch ($_SESSION['user_level']) {
+			    		if (isset($user['user_level'])) {
+			    			switch ($user['user_level']) {
 			    				case 0: //Register user access
 			    					echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
 
@@ -101,9 +105,9 @@ if(isset($_SESSION['uid'])) {
 										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
 										    <img id='navbarAvatar' ' width='20' height='20' src='";
 									echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-20x20.png';
-									echo "'> <span id='navbarName'>{$_SESSION['first_name']}</span><b class='caret'></b></a>
+									echo "'> <span id='navbarName'>{$user['first_name']}</span><b class='caret'></b></a>
 										    <ul class='dropdown-menu'>
-										        <li><a href='my-team.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
+										        <li><a href='team-profile.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
 										        
 										        <li><a href='user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
 										        
@@ -118,9 +122,9 @@ if(isset($_SESSION['uid'])) {
 										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
 										    <img id='navbarAvatar' ' width='20' height='20' src='";
 									echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-20x20.png';
-									echo "'> {$_SESSION['first_name']}<b class='caret'></b></a>
+									echo "'> {$user['first_name']}<b class='caret'></b></a>
 										    <ul class='dropdown-menu'>
-										        <li><a href='my-team.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
+										        <li><a href='team-profile.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
 										        
 										        <li><a href='user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
 										        

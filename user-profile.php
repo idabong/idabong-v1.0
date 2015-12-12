@@ -136,9 +136,9 @@ if(isset($_POST['oldPassword']) && preg_match('/^\w{6,30}$/', $_POST['oldPasswor
             <div  class="media-left">
                <div id="crop-avatar">
                 <!-- Current avatar -->
-                <div class="media-object avatar-view">
-
-                  <img class="thumbnail" src="<?php echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-100x100.png'; ?>" alt="user-Avatar">
+                <div class="media-object avatar-view" style="position: relative">
+                  <img class="thumbnail" src="<?php echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-100x100.png'; ?>" alt="user-Avatar" style="position: relative; z-index: 1;">
+                  <span class="badge fa fa-camera" style="position: absolute; left:5px; bottom: 5px; z-index: 10; opacity: .5;" >
                 </div>
 
                 <!-- Cropping modal -->
@@ -146,7 +146,7 @@ if(isset($_POST['oldPassword']) && preg_match('/^\w{6,30}$/', $_POST['oldPasswor
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
 
-                      <form class="avatar-form" action="crop.php" enctype="multipart/form-data" method="post">
+                      <form class="avatar-form" action="crop-user-avatar.php" enctype="multipart/form-data" method="post">
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal">&times;</button>
                           <div class="modal-title" id="avatar-modal-label">
@@ -265,7 +265,7 @@ if(isset($_POST['oldPassword']) && preg_match('/^\w{6,30}$/', $_POST['oldPasswor
 
 <!-- Cropper -->
 <script src="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.1/dist/cropper.min.js"></script>
-<script src="js/cropper.js"></script>
+<script src="js/crop-user-avatar.js"></script>
 
 <!-- Custom JS -->
 <script language="javascript" type="text/javascript" src="js/validate-forms.js"></script>

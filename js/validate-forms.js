@@ -16,12 +16,12 @@ $('#contact-form').validate({ // initialize the plugin
     },
     messages: {
         email: {
-            required: 'Oops! Vui lòng nhập email.',
-            email: 'Oops! Email không đúng.'
+            required: 'Vui lòng nhập email.',
+            email: 'Email không đúng.'
         },
         comment: {
-            required: 'Oops! Vui lòng điền ý kiến của bạn.',
-            minlength: 'Oops! Ý kiến phải nhiều hơn 5 ký tự.'
+            required: 'Vui lòng điền ý kiến của bạn.',
+            minlength: 'Ý kiến có ít nhất 5 ký tự.'
         }
     },
 });//END Validate Contact-form
@@ -63,23 +63,23 @@ $('#register-form').validate({ // initialize the plugin
     },
     messages: {
         first_name: {
-            required: 'Oops! Vui lòng nhập tên hoặc nickname.',
-            minlength: 'Oops! Tên phải nhiều hơn 2 ký tự.',
-            maxlength: 'Oops! Tên phải ít hơn 40 ký tự.'
+            required: 'Vui lòng nhập tên hoặc nickname.',
+            minlength: 'Tên có ít nhất 2 ký tự.',
+            maxlength: 'Tên phải ít hơn 40 ký tự.'
         },
         email: {
-            required: 'Oops! Vui lòng nhập email.',
-            email: 'Oops! Email không đúng.',
-            remote: 'Oops! Email này đã đăng ký.'
+            required: 'Vui lòng nhập email.',
+            email: 'Email không đúng.',
+            remote: 'Email này đã đăng ký.'
         },
         password: {
-            required: 'Oops! Vui lòng nhập mật khẩu.',
-            minlength: 'Oops! Mật khẩu phải nhiều hơn 6 ký tự.'
+            required: 'Vui lòng nhập mật khẩu.',
+            minlength: 'Mật khẩu có ít nhất 6 ký tự.'
         },
         confirm_password: {
-            required: 'Oops! Vui lòng nhập xác nhận mật khẩu.',
-            minlength: 'Oops! Xác nhận mật khẩu phải nhiều hơn 6 ký tự.',
-            equalTo: 'Oops! Xác nhận mật khẩu không đúng.'
+            required: 'Vui lòng nhập xác nhận mật khẩu.',
+            minlength: 'Xác nhận mật khẩu có ít nhất 6 ký tự.',
+            equalTo: 'Xác nhận mật khẩu không đúng.'
         }
     }
 });//END Validate register-form
@@ -96,8 +96,8 @@ $('#resendActivationCode, #forgotPassword').validate({ // initialize the plugin
     },
     messages: {
         email: {
-            required: 'Oops! Vui lòng nhập email.',
-            email: 'Oops! Email không đúng.'
+            required: 'Vui lòng nhập email.',
+            email: 'Email không đúng.'
         }
     }
 });//END Validate resend-activation-code form
@@ -119,13 +119,13 @@ $('#retrievePassword').validate({ // initialize the plugin
     },
     messages: {
         newPassword: {
-            required: 'Oops! Vui lòng nhập mật khẩu.',
-            minlength: 'Oops! Mật khẩu phải nhiều hơn 6 ký tự.'
+            required: 'Vui lòng nhập mật khẩu.',
+            minlength: 'Mật khẩu có ít nhất 6 ký tự.'
         },
         confirmNewPassword: {
-            required: 'Oops! Vui lòng nhập xác nhận mật khẩu.',
-            minlength: 'Oops! Xác nhận mật khẩu phải nhiều hơn 6 ký tự.',
-            equalTo: 'Oops! Xác nhận mật khẩu không đúng.'
+            required: 'Vui lòng nhập xác nhận mật khẩu.',
+            minlength: 'Xác nhận mật khẩu có ít nhất 6 ký tự.',
+            equalTo: 'Xác nhận mật khẩu không đúng.'
         }
     }
 });//END Validate register-form
