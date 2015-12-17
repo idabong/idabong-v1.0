@@ -54,6 +54,9 @@ if(isset($_SESSION['uid'])) {
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   	<![endif]-->
 
+  	<!-- datetime picker css -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.min.css">
+
 	<!-- Custom css -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>

@@ -101,8 +101,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                           }
                         ?>
                          </select>
-                      </div>
-                      
+                      </div>  
                   </div>
 
                   <div class="form-group">

@@ -82,9 +82,9 @@ if(isset($_POST['oldPassword']) && preg_match('/^\w{6,30}$/', $_POST['oldPasswor
               </div>
             </div>
           </div>
-        </div>
+        </div><!-- end last name modal -->
+
       <!-- first name modal -->
-      
       <div class="modal fade" id="firstNameModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel2">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

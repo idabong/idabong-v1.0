@@ -20,8 +20,8 @@ $('#lastNameForm').validate({
     },    
     messages: {
         last_name: {
-            minlength: 'Oops! Họ phải nhiều hơn 2 ký tự.',
-            maxlength: 'Oops! Họ phải ít hơn 40 ký tự.'
+            minlength: 'Họ phải có ít nhất 2 ký tự.',
+            maxlength: 'Họ phải ít hơn 40 ký tự.'
         }
     }
 });//END Validate lastNameForm
@@ -39,9 +39,9 @@ $('#firstNameForm').validate({
     },    
     messages: {
         first_name: {
-            required: 'Oops! Tên không được bỏ trống.',
-            minlength: 'Oops! Tên phải nhiều hơn 2 ký tự.',
-            maxlength: 'Oops! Tên phải ít hơn 40 ký tự.'
+            required: 'Tên không được bỏ trống.',
+            minlength: 'Tên phải nhiều hơn 2 ký tự.',
+            maxlength: 'Tên phải ít hơn 40 ký tự.'
         }
     }
 });//END Validate firstNameForm
@@ -59,9 +59,9 @@ $('#phoneForm').validate({
     },    
     messages: {
         tel: {
-            digits: 'Oops! Vui lòng nhập số ĐTDĐ',
-            minlength: 'Oops! Vui lòng nhập số ĐTDĐ',
-            maxlength: 'Oops! Vui lòng nhập số ĐTDĐ'
+            digits: 'Vui lòng nhập số ĐTDĐ',
+            minlength: 'Vui lòng nhập số ĐTDĐ',
+            maxlength: 'Vui lòng nhập số ĐTDĐ'
         }
     }
 });//END Validate phoneForm
@@ -166,16 +166,16 @@ $('#changePassword').validate({
     },
     messages: {
         oldPassword: {
-            minlength: 'Oops! Mật khẩu tối thiểu có 6 ký tự.',
-            maxlength: 'Oops! Mật khẩu tối đa có 30 ký tự.'
+            minlength: 'Mật khẩu tối thiểu có 6 ký tự.',
+            maxlength: ' Mật khẩu tối đa có 30 ký tự.'
         },
         newPassword: {
-            minlength: 'Oops! Mật khẩu tối thiểu có 6 ký tự.',
-            maxlength: 'Oops! Mật khẩu tối đa có 30 ký tự.'
+            minlength: 'Mật khẩu tối thiểu có 6 ký tự.',
+            maxlength: 'Mật khẩu tối đa có 30 ký tự.'
         },
         confirmNewPassword: {
-            minlength: 'Oops! Mật khẩu tối thiểu có 6 ký tự.',
-            equalTo: 'Oops! Xác nhận mật khẩu không đúng.'
+            minlength: 'Mật khẩu tối thiểu có 6 ký tự.',
+            equalTo: 'Xác nhận mật khẩu không đúng.'
         }
     }
 });//END Validate register-form

@@ -127,7 +127,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   the FB.login() function when clicked.
 -->
 
-
+<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 </body>
 
 </html>

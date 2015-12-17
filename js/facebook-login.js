@@ -1,14 +1,16 @@
 $(document).ready(function() {
-$( document ).ajaxStart(function() {
-  $( ".loading" ).show();
-});
+
 
 $( document ).ajaxStop(function() {
+//hide loading after ajax finished
   $( ".loading" ).hide();
 });
 
 
 $('#facebookLogin').click(function() {
+//show .loading after click
+$( ".loading" ).show();
+
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
   console.log('statusChangeCallback');
