@@ -1,6 +1,28 @@
 <?php
+ini_set('session.use_only_cookies', true); session_start(); 
+
+//Include functions
+include('includes/functions.php');
+
+// Database connect local
+//***LOCAL***//
+$db_connect = mysqli_connect('localhost', 'root', '', 'idabong');
+
+// Database connect
+//$db_connect = mysqli_connect('localhost', 'idabong_admin','DevelopVNfootball2015','idabong_database');
+
+// If could not connect
+if(!$db_connect) {
+    trigger_error("Could not connect to DB: " . mysqli_connect_error());
+    echo "<p class='well'>Could not connect to database</p>";
+} else {
+    // utf-8 for Vietnamese
+    mysqli_set_charset($db_connect, 'utf-8');
+}
+
+//***********Cropper***********//
 class CropAvatar {
-  private $src;
+  public $src;
   private $data;
   private $dst;
   private $type;
@@ -41,7 +63,7 @@ class CropAvatar {
 
       if ($type) {
         $extension = image_type_to_extension($type);
-        $src = 'uploads/images/' . date('YmdHis') . '.original' . $extension;
+        $src = 'img/' . date('YmdHis') . '.original' . $extension;
 
         if ($type == IMAGETYPE_GIF || $type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG) {
 
@@ -60,10 +82,10 @@ class CropAvatar {
              $this -> msg = 'Failed to save file';
           }
         } else {
-          $this -> msg = 'Please upload image with the following types: JPG, PNG, GIF';
+          $this -> msg = 'Vui lòng upload hình ảnh với định dạng JPG, PNG';
         }
       } else {
-        $this -> msg = 'Please upload image file';
+        $this -> msg = 'Vui lòng upload file hình ảnh.';
       }
     } else {
       $this -> msg = $this -> codeToMessage($errorCode);
@@ -71,7 +93,7 @@ class CropAvatar {
   }
 
   private function setDst() {
-    $this -> dst = 'uploads/images/' . date('YmdHis') . '.png';
+    $this -> dst = 'img/' . date('YmdHis') . '.png';
   }
 
   private function crop($src, $dst, $data) {
@@ -103,25 +125,6 @@ class CropAvatar {
       $src_img_h = $size_h;
 
       $degrees = $data -> rotate;
-
-      // Rotate the source image
-      if (is_numeric($degrees) && $degrees != 0) {
-        // PHP's degrees is opposite to CSS's degrees
-        $new_img = imagerotate( $src_img, -$degrees, imagecolorallocatealpha($src_img, 0, 0, 0, 127) );
-
-        imagedestroy($src_img);
-        $src_img = $new_img;
-
-        $deg = abs($degrees) % 180;
-        $arc = ($deg > 90 ? (180 - $deg) : $deg) * M_PI / 180;
-
-        $src_img_w = $size_w * cos($arc) + $size_h * sin($arc);
-        $src_img_h = $size_w * sin($arc) + $size_h * cos($arc);
-
-        // Fix rotated image miss 1px issue when degrees < 0
-        $src_img_w -= 1;
-        $src_img_h -= 1;
-      }
 
       $tmp_img_w = $data -> width;
       $tmp_img_h = $data -> height;
@@ -178,6 +181,11 @@ class CropAvatar {
 
       imagedestroy($src_img);
       imagedestroy($dst_img);
+
+      //Delete original uploaded file-Tran Dai added
+      if (file_exists($src)) {
+        unlink($src);
+      }
     }
   }
 
@@ -221,3 +229,20 @@ $response = array(
 );
 
 echo json_encode($response);
+//***********END Cropper***********//
+
+
+//If there is no error, update database
+if(empty($crop->getMsg())) {
+  //Delete old avatar
+  $user = fetch_user($_SESSION['uid']);
+  if(isset($user['avatar'])) {
+    unlink($user['avatar']);
+  }
+
+  //Update new avatar
+  $avatarLink = $crop -> getResult();
+  $q = "UPDATE user SET avatar = '{$avatarLink}' WHERE uid = {$_SESSION['uid']} LIMIT 1";
+  $update_result = mysqli_query($db_connect, $q);
+}
+?>

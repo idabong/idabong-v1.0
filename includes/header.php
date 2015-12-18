@@ -1,9 +1,21 @@
 <?php 
 ini_set('session.use_only_cookies', true); session_start(); 
+ini_set('upload_max_filesize', '10M');
+ini_set('post_max_size', '10M');
+ini_set('max_input_time', 300);
+ini_set('max_execution_time', 300);
+
 include('includes/mysqli_connect_local.php');
 include('includes/functions.php');
+include('includes/remember-me.php');
+//Check if user was remembered.
+$rememberUser = rememberMe();
+
 // If user logined, fetch user's data
 if(isset($_SESSION['uid'])) { 
+	$user = fetch_user($_SESSION['uid']);
+} else if(isset($rememberUser)) {
+	$_SESSION['uid'] = $rememberUser;
 	$user = fetch_user($_SESSION['uid']);
 }
 ?>
@@ -30,8 +42,20 @@ if(isset($_SESSION['uid'])) {
 	<!-- Font Awesome css -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
+	<!-- Bootstrap rating css -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-rating.css">
+
 	<!-- Cropper css -->
 	<link  href="https://cdn.rawgit.com/fengyuanchen/cropper/v2.0.1/dist/cropper.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/cropper.css">
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+ 	 <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  	<![endif]-->
+
+  	<!-- datetime picker css -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.min.css">
 
 	<!-- Custom css -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -75,16 +99,18 @@ if(isset($_SESSION['uid'])) {
 			      	<!-- navbar Left -->
 			    	<ul class="nav navbar-nav navbar-right">
 			    	<?php 
-			    		if (isset($_SESSION['user_level'])) {
-			    			switch ($_SESSION['user_level']) {
+			    		if (isset($user['user_level'])) {
+			    			switch ($user['user_level']) {
 			    				case 0: //Register user access
 			    					echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
 
 			    						<li class='dropdown'>
 										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-										    <img src='css/images/default-avatar-20x20.png' class=''> {$_SESSION['first_name']}<b class='caret'></b></a>
+										    <img id='navbarAvatar' ' width='20' height='20' src='";
+									echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-20x20.png';
+									echo "'> <span id='navbarName'>{$user['first_name']}</span><b class='caret'></b></a>
 										    <ul class='dropdown-menu'>
-										        <li><a href='my-team.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
+										        <li><a href='team-profile.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
 										        
 										        <li><a href='user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
 										        
@@ -95,17 +121,19 @@ if(isset($_SESSION['uid'])) {
 			    					break;
 
 			    				case 2:
-			    					echo "
-			    						<li class='dropdown'>
+			    					echo "<li class='dropdown'>
 										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-										    <img src='' class='profile-image img-circle'> {$_SESSION['first_name']}<b class='caret'></b></a>
+										    <img id='navbarAvatar' ' width='20' height='20' src='";
+									echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-20x20.png';
+									echo "'> {$user['first_name']}<b class='caret'></b></a>
 										    <ul class='dropdown-menu'>
+										        <li><a href='team-profile.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
+										        
 										        <li><a href='user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
 										        
 										        <li><a href='logout.php'><i class='fa fa-sign-out'></i> Đăng xuất</a></li>
 										    </ul>
-										</li>
-			    					";
+										</li>";
 			    					break;
 			    				default:
 			    					echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
@@ -116,7 +144,7 @@ if(isset($_SESSION['uid'])) {
 			    		} else {
 			    			echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
 
-		        				<li><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>";
+		        				<li id='navUser'><a href='login.php'><span class='glyphicon glyphicon-user'></span> Đăng Nhập</a></li>";
 			    		}
 			    	?>
 			    	</ul><!-- END navbar Right -->

@@ -1,22 +1,23 @@
 <?php ini_set('session.use_only_cookies', true); session_start(); 
-//Include functions
+ini_set('upload_max_filesize', '10M');
+ini_set('post_max_size', '10M');
+ini_set('max_input_time', 300);
+ini_set('max_execution_time', 300);
+
+include('includes/mysqli_connect_local.php');
 include('includes/functions.php');
+include('includes/remember-me.php');
+//Check if user was remembered.
+$rememberUser = rememberMe();
 
-// Database connect local
-//***LOCAL***//
-$db_connect = mysqli_connect('localhost', 'root', '', 'idabong');
-
-// Database connect
-//$db_connect = mysqli_connect('localhost', 'idabong_admin','DevelopVNfootball2015','idabong_database');
-
-// If could not connect
-if(!$db_connect) {
-    trigger_error("Could not connect to DB: " . mysqli_connect_error());
-    echo "<p class='well'>Could not connect to database</p>";
-} else {
-    // utf-8 for Vietnamese
-    mysqli_set_charset($db_connect, 'utf-8');
+// If user logined, fetch user's data
+if(isset($_SESSION['uid'])) { 
+	$user = fetch_user($_SESSION['uid']);
+} else if(isset($rememberUser)) {
+	$_SESSION['uid'] = $rememberUser;
+	$user = fetch_user($_SESSION['uid']);
 }
+
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Form Handling
@@ -86,7 +87,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $body .="<div>-------------------</div>
                 		<p><i>Nhóm phát triển <a href='http://idabong.com' target='_blank'>idabong.com</a></i></p>
                 		<p><i>Email: hotro.idabong@gmail.com</i></p>
-                		<p><i>ĐT (+84) 971 499 715</i></p>";
+                		<p><i>ĐT1 (+84) 971 499 715 - Đại</i></p>
+            			<p><i>ĐT2 (+84) 901 188 672 - Văn</i></p>";
 
                 //Create an activation link to test in Localhost
                	//***LOCAL***//
@@ -118,7 +120,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         // If $errors is NOT empty
          $message = alert_message(false, 'Vui lòng kiểm tra thông tin.'); 
     }
-}// END main IF
+}// END IF Post
 ?>
 
 <!DOCTYPE html>
@@ -129,10 +131,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<title>idabong.com - Kết nối đam mê đá bóng</title>
 	<meta name="description" content="Tìm kiếm đội bóng" />
 	<meta charset='UTF-8' />
-
-	<!-- Google Login: GoogleAuth Library -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-	<script src="https://apis.google.com/js/api:client.js"></script>
 
 	<!-- Add favicon to website -->
 	<link href="css/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -191,16 +189,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		      	<!-- navbar Left -->
 		    	<ul class="nav navbar-nav navbar-right">
 			       <?php 
-			    		if (isset($_SESSION['user_level'])) {
-			    			switch ($_SESSION['user_level']) {
+			    		if (isset($user['user_level'])) {
+			    			switch ($user['user_level']) {
 			    				case 0: //Register user access
 			    					echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
 
 			    						<li class='dropdown'>
 										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-										    <img src='css/images/default-avatar-20x20.png' class=''> {$_SESSION['first_name']}<b class='caret'></b></a>
+										    <img id='navbarAvatar' ' width='20' height='20' src='";
+									echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-20x20.png';
+									echo "'> <span id='navbarName'>{$user['first_name']}</span><b class='caret'></b></a>
 										    <ul class='dropdown-menu'>
-										        <li><a href='my-team.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
+										        <li><a href='team-profile.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
 										        
 										        <li><a href='user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
 										        
@@ -211,17 +211,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			    					break;
 
 			    				case 2:
-			    					echo "
-			    						<li class='dropdown'>
+			    					echo "<li class='dropdown'>
 										    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-										    <img src='' class='profile-image img-circle'> Username <b class='caret'></b></a>
+										    <img id='navbarAvatar' ' width='20' height='20' src='";
+									echo isset($user['avatar']) ? $user['avatar'] : 'css/images/default-avatar-20x20.png';
+									echo "'> {$user['first_name']}<b class='caret'></b></a>
 										    <ul class='dropdown-menu'>
-										        <li><a href='#'><i class='fa fa-cog'></i> Account</a></li>
-										        <li class=divider></li>
-										        <li><a href='#'><i class='fa fa-sign-out'></i> Sign-out</a></li>
+										        <li><a href='team-profile.php'><i class='fa fa-futbol-o'></i> Đội bóng</a></li>
+										        
+										        <li><a href='user-profile.php'><i class='fa fa-cog'></i> Cài đặt</a></li>
+										        
+										        <li><a href='logout.php'><i class='fa fa-sign-out'></i> Đăng xuất</a></li>
 										    </ul>
-										</li>
-			    					";
+										</li>";
 			    					break;
 			    				default:
 			    					echo "<li><a href='transactions.php'><span class='glyphicon glyphicon-fire'></span> Cáp Kèo</a></li>
@@ -282,11 +284,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			
 				</div><!-- end myCarousel -->
 
-				<div id="message-alert">
-					<?php //Alert $message
-				 	if(!empty($message)) echo $message;
-					?>
-				</div>
+				<?php //Alert $message
+			 	if(!empty($message)) echo $message; 
+				?>
 
 				<!-- REGISTER FORM -->
 				<div class="panel panel-success">
@@ -328,11 +328,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 						</form>	
 						  <!--Social Login -->
 						  <a class="btn btn-block btn-social btn-facebook">
-						  	<i class="fa fa-facebook"></i>Đăng Kí Bằng Facebook
+						  	<i class="fa fa-facebook"></i>Đăng Ký Bằng Facebook
 						  </a>
-						  <a id="customBtn" class="btn btn-block btn-social btn-google">
-							<i class="fa fa-google"></i>Đăng Kí Bằng Google
+						  <a class="btn btn-block btn-social btn-google">
+						  	<i class="fa fa-google"></i>Đăng Ký Bằng Google
 						  </a>
+
+						
 
 					</div>
 				</div><!--END REGISTER FORM-->
@@ -356,10 +358,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!-- Custom JS -->
 <script language="javascript" type="text/javascript" src="js/validate-forms.js"></script>
-
-<!-- Google Login -->
-<script language="javascript" type="text/javascript" src="js/login-google.js"></script>
-<script> startApp(); </script>
 
 </body>
 

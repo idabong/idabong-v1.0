@@ -1,4 +1,7 @@
 <?php $title = 'Đăng nhập'; include 'includes/header.php';
+if(isset($user)) {
+	redirect_to('index.php');
+}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Form Handling
@@ -17,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $errors[] = 'password';
     }
-    
+
 	if(empty($errors)) {
 		// Connect to database to get user's info
 		$query = "SELECT uid, first_name, user_level FROM user WHERE email = '{$email}' AND password = SHA1('$password') AND COALESCE(active, '') = ''";
@@ -31,7 +34,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$_SESSION['uid'] = $uid;
 			$_SESSION['first_name'] = $first_name;
 			$_SESSION['user_level'] = $user_level;
-			                
+
+			//Remember user
+		    if(isset($_POST['remember'])) {
+		    	onLogin($_SESSION['uid']);
+		    }
+
 			redirect_to('user-profile.php');
 		} else {
 			//Wrong account
@@ -51,17 +59,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		</div><!--end .col-sm-3 left collumn -->
 
 		<div class="col-sm-6"><!-- MAIN COLLUMN-->
-
+			
 			<!-- REGISTER FORM -->
 			<div class="panel panel-success">
 				<?php //Alert login message
 			 		if(!empty($message)) echo $message; 
 				?>
 				<div class="panel-body">
-					<!-- ALERT STATUS -->
-					<div id="alert" class="hidden alert">	
-					</div>
-					<!-- END STATUS -->
 
 					<form id="login-form" action="login.php" method="post">
 						<!-- EMAIL -->
@@ -77,7 +81,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 						<!-- KEEP USER LOGIN -->
 						<div class="checkbox">
 						    <label>
-						      <input type="checkbox" tabindex='3'> Duy trì đăng nhập
+						      <input name="remember" id="remember" type="checkbox" tabindex='3'> Duy trì đăng nhập
 						    </label>
 						</div>
 
@@ -88,14 +92,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 					
 					<p class="text-primary"><a href="forgot-password.php" tabindex='5'>Quên mật khẩu?</a></p>
 					<!--Social Login -->
-					<a class="btn btn-block btn-social btn-facebook">
+					<button id='facebookLogin' class="btn btn-block btn-social btn-facebook">
 						<i class="fa fa-facebook"></i>Đăng Nhập Bằng Facebook
-					</a>
-					<a class="btn btn-block btn-social btn-google">
+					</button>
+					<button class="btn btn-block btn-social btn-google">
 						<i class="fa fa-google"></i>Đăng Nhập Bằng Google
-					</a>
-
-					
+					</button>
 
 				</div>
 			</div><!--END REGISTER FORM-->
@@ -117,7 +119,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!-- Custom JS -->
 <script language="javascript" type="text/javascript" src="js/validate-forms.js"></script>
+<script language="javascript" type="text/javascript" src="js/facebook-login.js"></script>
 
+<!--
+  Below we include the Login Button social plugin. This button uses
+  the JavaScript SDK to present a graphical Login button that triggers
+  the FB.login() function when clicked.
+-->
+
+<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 </body>
 
 </html>
