@@ -8,17 +8,17 @@ if(isset($_POST['json'])) {
 	$errors = array();
 
 	//Validate groundName
-    if(preg_match('/^[a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ \'-]{2,60}$/u', $data->groundName)) {
+    if(preg_match('/^[a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ \'-.]{2,60}$/u', $data->groundName)) {
         $groundName = mysqli_real_escape_string($db_connect, $data->groundName);
     } else {
         $errors[] = 'groundName';
     }
 
     //Validate teamName
-    if(preg_match('/^[a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ \'-]{2,60}$/u', $data->teamName)) {
+    if(preg_match('/^[a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ \'-.]{2,60}$/u', $data->teamName)) {
         $teamName = mysqli_real_escape_string($db_connect, $data->teamName);
     } else {
-        $errors[] = 'groundName';
+        $errors[] = 'teamName';
     }
 
 	//Validate type
@@ -57,14 +57,14 @@ if(isset($_POST['json'])) {
     }
 
     //Validate teamName
-    if(preg_match('/^[a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ \'-]{2,60}$/u', $data->contactName)) {
-        $contactName = mysqli_real_escape_string($db_connect, $data->teamName);
+    if(preg_match('/^[a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ \'-.]{2,60}$/u', $data->contactName)) {
+        $contactName = mysqli_real_escape_string($db_connect, $data->contactName);
     } else {
         $errors[] = 'contactName';
     }
 
     //Validate tel
-    if(filter_var($data->tel, FILTER_VALIDATE_INT)) {
+    if(preg_match('/^[0-9]{10,11}$/', $data->tel)) {
         $tel = mysqli_real_escape_string($db_connect, $data->tel);
     } else {
         $errors[] = 'tel';
@@ -90,7 +90,7 @@ if(isset($_POST['json'])) {
 	        VALUES ('{$groundName}','{$teamName}', '{$type}', '{$match_date}', '{$start_time}', '{$end_time}', '{$contactName}', '{$tel}', {$latitude}, {$longitude}, NOW())";
 	    $result = mysqli_query($db_connect, $query); confirm_query($result, $query);
 	    if(mysqli_affected_rows($db_connect) == 1) {
-	        echo 'YES';
+	       echo 'YES';
 	    } else {
 	        echo 'NO';
 	    }

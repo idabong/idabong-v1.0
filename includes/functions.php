@@ -145,5 +145,20 @@ function fetch_team($user_id) {
         return FALSE;
     }
 } // END fetch_user
+
+//Fetch posts
+function fetch_post() {
+    global $db_connect;
+    $query = "SELECT * FROM post WHERE match_date >= CURDATE()"; //match_date >= CURDATE()
+    $result = mysqli_query($db_connect, $query); confirm_query($result, $query);
+
+    if(mysqli_num_rows($result) > 0) {
+        // If successfully
+        return $result_set = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    } else {
+        // If NOT successfully
+        return FALSE;
+    }
+}
 ?>
  

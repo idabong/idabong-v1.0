@@ -129,6 +129,37 @@ function initAutocomplete() {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
+  //Geolocation
+	var infoWindow = new google.maps.InfoWindow({map: map});
+
+	// Try HTML5 geolocation.
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+	  	var pos = {
+			lat: position.coords.latitude,
+			lng: position.coords.longitude
+	  	};
+
+		infoWindow.setPosition(pos);
+		infoWindow.setContent('Vị trí của bạn');
+		map.setCenter(pos);
+	}, function() {
+	 	handleLocationError(true, infoWindow, map.getCenter());
+	});
+	} else {
+	// Browser doesn't support Geolocation
+		handleLocationError(false, infoWindow, map.getCenter());
+	}
+
+	
+	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+	  infoWindow.setPosition(pos);
+	  infoWindow.setContent(browserHasGeolocation ?
+	                        'Geolocation không hoạt động.' :
+	                        'trình duyệt của bạn không hỗ trợ geolocation.');
+	}
+	//End Geolocation
+	
   // Create the search box and link it to the UI element.
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
@@ -290,7 +321,8 @@ $('#postButton').click(function() {
 		    url: 'processor/post.php',
 		    data: {'json': JSON.stringify(data)},
 		    success: function(response) {
-		        var response = response.trim(); 
+		        var response = response.trim();
+		        console.log(response); 
 		        if(response == 'YES') {
 		        	$('.alert').addClass('hidden');
            			$('.alert-success').removeClass('hidden');
