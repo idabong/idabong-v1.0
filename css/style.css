@@ -119,5 +119,9 @@ body {
 #imagePreview {overflow:hidden}
 
 /* --------------------------------------
-    GOOGLE MAPS SEARCH BOX 
+    INDEX PAGE 
    -------------------------------------- */
+
+#chosenMatch {
+  display: none;
+}

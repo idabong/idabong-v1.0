@@ -1,6 +1,6 @@
 <?php header("Content-type: text/xml");
-include('includes/mysqli_connect_local.php');
-include('includes/functions.php');
+include('../includes/mysqli_connect_local.php');
+include('../includes/functions.php');
 
 
 function parseToXML($htmlStr)

@@ -160,5 +160,63 @@ function fetch_post() {
         return FALSE;
     }
 }
+
+function show_rating($team_rating) {
+    if(isset($team_rating)) {
+        $rating = round($team_rating);
+        switch ($rating) {
+            case 1:
+                echo "<span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  ";
+                break;
+            case 2:
+                echo "<span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  ";
+                break;
+            case 3:
+                echo "<span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  ";
+                break;
+
+            case 4:
+                echo "<span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star yellow'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  ";
+                break;
+
+            case 5:
+            echo "<span class='glyphicon glyphicon-star yellow'></span>
+              <span class='glyphicon glyphicon-star yellow'></span>
+              <span class='glyphicon glyphicon-star yellow'></span>
+              <span class='glyphicon glyphicon-star yellow'></span>
+              <span class='glyphicon glyphicon-star yellow'></span>
+              ";
+            break;
+            
+        }
+    } else {
+        echo "<span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  <span class='glyphicon glyphicon-star-empty'></span>
+                  ";
+    } 
+}
 ?>
  

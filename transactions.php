@@ -303,7 +303,7 @@ $('#postButton').click(function() {
 				 'tel' : tel, 
 				 'groundName' : groundName, 
 				 'latitude' : latitude, 
-				 'longitude' : latitude
+				 'longitude' : longitude
 				};
 
 	var execute = true;			

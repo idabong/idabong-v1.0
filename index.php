@@ -33,39 +33,35 @@ if(isset($_SESSION['uid'])) {
 
 				<div  class="col-sm-4" >
 					<!-- POST#5 -->
-					<div class="panel panel-success">
-						<div class="panel-heading"><strong><span class="glyphicon glyphicon-map-marker"></span> Kèo đang chọn</strong></div>
+					<div id ='matchInfo' class="panel panel-success">
+						<div class="panel-heading"><strong><i class="fa fa-map-marker"></i> Kèo đang chọn</strong></div>
 
-						<div class="panel-body">
-								<div class="media">
-									<div class="media-left">
-									    <a href="#">
-									    	<img src="uploads/images/team-avatar-5.png" alt="team avatar">
-									    </a>
-								 	</div>
+						<div id='chosenMatch' class="panel-body">
+							<div class="media">
+								<div class="media-left">
+								    <a href="#">
+								    	<img src="uploads/images/team-avatar-5.png" alt="team avatar">
+								    </a>
+							 	</div>
 
-									<div class="media-body">
-									    <h4 class="media-heading text-success"><strong>Team Name 5</strong></h4>
-									    <div>
-									    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
-									    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
-									    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
-									    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
-									    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
-									    </div>
-									</div>
-								</div><!--end div.media-->
+								<div class="media-body">
+								    <h4 class="media-heading text-success"><strong>Team Name 5</strong></h4>
+								    <div>
+								    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
+								    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
+								    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
+								    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
+								    	<a href="#"><span class="glyphicon glyphicon-star yellow"></span></a>
+								    </div>
+								</div>
+							</div><!--end div.media-->
 
-								<p class="text" ><strong>Thể thức</strong>: 9 người</p>
-								<p class="text"><strong>Ngày</strong>:  <span class="text-danger">dd/mm/yyyy - Day of Week</span> 
-								<p class="text"><strong>Giờ</strong>: <span class="text-danger">17h30</span> đến <span class="text-danger">19h00</span></p>
-								<p class="text"><strong>Sân Thi Đấu</strong>: Cảng Dầu Khí</p>
-								<p class="text"><strong>Địa chỉ</strong>: Số 00 Đường 30/4 TP Vũng Tàu</p>
-								<p class="text"><strong>Liên Hệ</strong>: 0000000000 - <span>Mananger's Name</span></p>
-
-								
-							<!-- Button for sending request -->
-							<a href="#" target="_blank" class="btn btn-warning btn-block">Gửi Yêu Cầu</a>
+							<p class="text" ><strong>Thể thức</strong>: 9 người</p>
+							<p class="text"><strong>Ngày</strong>:  <span class="text-danger">dd/mm/yyyy - Day of Week</span> 
+							<p class="text"><strong>Giờ</strong>: <span class="text-danger">17h30</span> đến <span class="text-danger">19h00</span></p>
+							<p class="text"><strong>Sân Thi Đấu</strong>: Cảng Dầu Khí</p>
+							<p class="text"><strong>Địa chỉ</strong>: Số 00 Đường 30/4 TP Vũng Tàu</p>
+							<p class="text"><strong>Liên Hệ</strong>: 0000000000 - <span>Mananger's Name</span></p>
 						</div>
 					</div><!--end POST#5-->
 				</div>
@@ -76,19 +72,6 @@ if(isset($_SESSION['uid'])) {
 <?php include 'includes/footer.php';?>
 
 <!--******** Additional Scrip ********-->
-<!-- Vietnamese reCaptcha by Google-->
-<script src='https://www.google.com/recaptcha/api.js?hl=vi'></script>
-
-<!-- Moment api -->
-<script language="javascript" type="text/javascript" src="js/moment.min.js"></script>
-<script language="javascript" type="text/javascript" src="js/moment-vi.js"></script>
-<!-- timepicker api-->
-<script language="javascript" type="text/javascript" src='js/bootstrap-datetimepicker.min.js'></script>
-
-
-<!-- Custom JS -->
-<script language="javascript" type="text/javascript" src="js/transactions.js"></script>
-
 
 <!-- google maps -->
 <script>
@@ -199,47 +182,52 @@ function initAutocomplete() {
 
   //*******Show Markers where matchs will happen********//
   // Change this depending on the name of your PHP file
-	downloadUrl("processor/xml-markers.php", function(data) {
-		var xml = data.responseXML;
-		var markers = xml.documentElement.getElementsByTagName("marker");
-		for (var i = 0; i < markers.length; i++) {
-			var id = markers[i].getAttribute("id");
-			var name = markers[i].getAttribute("name");
-			var point = new google.maps.LatLng(
-			  parseFloat(markers[i].getAttribute("lat")),
-			  parseFloat(markers[i].getAttribute("lng")));
-			var marker = new google.maps.Marker({
-				map: map,
-				position: point
-			});
-			bindInfoWindow(marker, map, infoWindow);
+	$.ajax({
+		type: 'GET',
+		url: "processor/xml-markers.php", 
+		dataType: 'xml',
+		success: function(data) {
+			var xml = data;
+			var markers = $(xml).find('marker');
+			
+			for (var i = 0; i < markers.length; i++) {
+				var pid = markers[i].getAttribute("id");
+				var name = markers[i].getAttribute("name");
+				var latitude = parseFloat(markers[i].getAttribute("lat"));
+				var longitude = parseFloat(markers[i].getAttribute("lng"));
+				var marker = new google.maps.Marker({
+					map: map,
+					position: {lat: latitude, lng: longitude},
+					id: pid
+				});
+
+				bindInfoWindow(marker, map);
+			}
 		}
 	});
 
 
-    function bindInfoWindow(marker, map, infoWindow) {
-      google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.open(map, marker);
-      });
+    function bindInfoWindow(marker, map) {
+		google.maps.event.addListener(marker, 'click', function() {
+			$(document).ajaxStart(function() {
+				$('#matchInfo i').removeClass('fa-map-marker').addClass('fa-refresh, fa-spin');
+			});
+
+			$(document).ajaxStop(function() {
+				$('#matchInfo i').removeClass('fa-refresh, fa-spin').addClass('fa-map-marker');
+			})
+
+			$.ajax({
+				type: 'GET',
+				url: "processor/get-post-info.php",
+				data: 'id='+marker.id,
+				success: function(data) {
+					console.log(data);
+					$('#chosenMatch').html(data).slideDown();
+				}
+			});
+		});
     }
-
-    function downloadUrl(url, callback) {
-      var request = window.ActiveXObject ?
-          new ActiveXObject('Microsoft.XMLHTTP') :
-          new XMLHttpRequest;
-
-      request.onreadystatechange = function() {
-        if (request.readyState == 4) {
-          request.onreadystatechange = doNothing;
-          callback(request, request.status);
-        }
-      };
-
-      request.open('GET', url, true);
-      request.send(null);
-    }
-
-    function doNothing() {}
   //*******End show markers**********//
 
 }
@@ -248,18 +236,7 @@ function initAutocomplete() {
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9VOKyf7VX6d8jGK1OzWa1PydTOJ05IOs&language=vi&libraries=places&callback=initAutocomplete"
          async defer></script>
-<script type="text/javascript">
 
-$( document ).ajaxStart(function() {
-  $( ".loading" ).show();
-});
-
-$( document ).ajaxStop(function() {
-  $( ".loading" ).hide();
-});
-
-</script>
-<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 </body>
 
 </html>

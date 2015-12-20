@@ -1,4 +1,5 @@
-<?php include('../includes/mysqli_connect_local.php');
+<?php ini_set('session.use_only_cookies', true); session_start(); 
+include('../includes/mysqli_connect_local.php');
 include('../includes/functions.php');
 if(isset($_POST['json'])) {
 	//Decode json data
@@ -6,6 +7,9 @@ if(isset($_POST['json'])) {
 
 	//Create error flag
 	$errors = array();
+
+    //Prepare user id variable
+    $uid = isset($_SESSION['uid']) ? $_SESSION['uid'] : null;
 
 	//Validate groundName
     if(preg_match('/^[a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ \'-.]{2,60}$/u', $data->groundName)) {
@@ -86,8 +90,8 @@ if(isset($_POST['json'])) {
 
     if(empty($errors)) {
     	// Insert user's info into database
-	   $query = "INSERT INTO post (ground_name, team_name, type, match_date, start_time, end_time, contact_name, phone, latitude, longitude, post_time)
-	        VALUES ('{$groundName}','{$teamName}', '{$type}', '{$match_date}', '{$start_time}', '{$end_time}', '{$contactName}', '{$tel}', {$latitude}, {$longitude}, NOW())";
+	   $query = "INSERT INTO post (ground_name, team_name, type, match_date, start_time, end_time, contact_name, phone, latitude, longitude, post_time, uid)
+	        VALUES ('{$groundName}','{$teamName}', '{$type}', '{$match_date}', '{$start_time}', '{$end_time}', '{$contactName}', '{$tel}', {$latitude}, {$longitude}, NOW(), {$uid})";
 	    $result = mysqli_query($db_connect, $query); confirm_query($result, $query);
 	    if(mysqli_affected_rows($db_connect) == 1) {
 	       echo 'YES';

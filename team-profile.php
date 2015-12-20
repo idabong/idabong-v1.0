@@ -205,17 +205,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
               </p>
               <div id='rating'>
                 <?php 
-                  if(isset($team['rating'])) {
-                    //echo rating
-                  } else {
-                    //echo 5 empty star
-                    echo "<i class='fa fa-star-o'></i>
-                          <i class='fa fa-star-o'></i>
-                          <i class='fa fa-star-o'></i>
-                          <i class='fa fa-star-o'></i>
-                          <i class='fa fa-star-o'></i>
-                          ";
-                  } 
+                  show_rating($team['rating']);
                 ?>
               </div>
               
